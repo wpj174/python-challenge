@@ -27,59 +27,57 @@
 
 * In addition, your final script should both print the analysis to the terminal and export a text file with the results.
 """
+
+# import required modules
 import os
 import csv
 
-inputPath = os.path.join("Resources", "budget_data.csv")
-outputPath = os.path.join("analysis", "Financial_Analysis.txt")
+input_path = os.path.join("Resources", "budget_data.csv")
+output_path = os.path.join("analysis", "Financial_Analysis.txt")
 
-rowCount = 0
-monthCount = 0
-totalNetProfit = 0
-maxIncrease = 0
-maxDecrease = 0
-firstMonth = True
-firstProfitLoss = 0
-totalChange = 0
-prevMonth = 0
-currentMonth = 0
+month_count = 0
+total_net_profit = 0
+max_increase = 0
+max_decrease = 0
+first_month = True
+total_change = 0
 
-with open(inputPath) as csvFile:
-  csvReader = csv.reader(csvFile, delimiter=',')
-  csvHeader = next(csvReader)
-  for row in csvReader:
-    monthCount += 1
-    currentMonth = int(row[1])
-    totalNetProfit += currentMonth
-    if firstMonth == True:
-      firstMonth = False
+with open(input_path) as csv_file:
+  csv_reader = csv.reader(csv_file, delimiter=',')
+  csv_header = next(csv_reader)
+  for row in csv_reader:
+    month_count += 1
+    current_month = int(row[1])
+    total_net_profit += current_month
+    if first_month == True:
+      first_month = False
     else:
-      totalChange += (currentMonth - prevMonth)
-      if totalChange > maxIncrease:
-        maxIncrease = totalChange
-        maxIncMonth = row[0]
-      if totalChange < maxDecrease:
-        maxDecrease = totalChange
-        maxDecMonth = row[0]
-    prevMonth = currentMonth
+      total_change += (current_month - prev_month)
+      if total_change > max_increase:
+        max_increase = total_change
+        max_inc_month = row[0]
+      if total_change < max_decrease:
+        max_decrease = total_change
+        max_dec_month = row[0]
+    prev_month = current_month
 
-with open(outputPath,'w') as txtFile:
-  txtFile.write("Financial Analysis\n")
+with open(output_path,'w') as txt_file:
+  txt_file.write("Financial Analysis\n")
   print("Financial Analysis")
-  txtFile.write("----------------------------\n")
+  txt_file.write("----------------------------\n")
   print("----------------------------")
-  txtFile.write(f"Total Months: {monthCount}\n")
-  print(f"Total Months: {monthCount}")
-  txtFile.write(f"Total Net Profit: ${totalNetProfit:,.2f}\n")
-  print(f"Total Net Profit: ${totalNetProfit:,.2f}")
-  txtFile.write(f"Total Period Change in Profit: ${totalChange:,.2f}\n")
-  print(f"Total Period Change in Profit: ${totalChange:,.2f}")
-  txtFile.write(f"Average Change in Profit: ${totalChange/(monthCount-1):,.2f}\n")
-  print(f"Average Change in Profit: ${totalChange/(monthCount-1):,.2f}")
-  txtFile.write(f"Greatest Increase in Profits: {maxIncMonth} (${maxIncrease:,.2f})\n")
-  print(f"Greatest Increase in Profits: {maxIncMonth} (${maxIncrease:,.2f})")
-  txtFile.write(f"Greatest Decrease in Profits: {maxDecMonth} (${maxDecrease:,.2f})\n")
-  print(f"Greatest Decrease in Profits: {maxDecMonth} (${maxDecrease:,.2f})")
-  txtFile.write("---\n")
+  txt_file.write(f"Total Months: {month_count}\n")
+  print(f"Total Months: {month_count}")
+  txt_file.write(f"Total Net Profit: ${total_net_profit:,.2f}\n")
+  print(f"Total Net Profit: ${total_net_profit:,.2f}")
+  txt_file.write(f"Total Period Change in Profit: ${total_change:,.2f}\n")
+  print(f"Total Period Change in Profit: ${total_change:,.2f}")
+  txt_file.write(f"Average Change in Profit: ${total_change/(month_count-1):,.2f}\n")
+  print(f"Average Change in Profit: ${total_change/(month_count-1):,.2f}")
+  txt_file.write(f"Greatest Increase in Profits: {max_inc_month} (${max_increase:,.2f})\n")
+  print(f"Greatest Increase in Profits: {max_inc_month} (${max_increase:,.2f})")
+  txt_file.write(f"Greatest Decrease in Profits: {max_dec_month} (${max_decrease:,.2f})\n")
+  print(f"Greatest Decrease in Profits: {max_dec_month} (${max_decrease:,.2f})")
+  txt_file.write("---\n")
   print("---")
 
