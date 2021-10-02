@@ -46,23 +46,31 @@ import csv
 input_path = os.path.join("Resources", "election_data.csv")
 output_path = os.path.join("analysis", "Election_Results.txt")
 
+# Set up variable initial values
 vote_count = 0
 votes = dict()
 
 
+# Open input file and step through data
 with open(input_path) as csv_file:
+
   csv_reader = csv.reader(csv_file, delimiter=',')
+
+  # Read header row - not used in calculations
   csv_header = next(csv_reader)
+
+  # Step through data rows
   for row in csv_reader:
-    vote_count += 1
-    vote_getter = row[2]
-    if vote_getter in votes:
-        votes[vote_getter] += 1
-    else:
-        votes[vote_getter] = 1
+    vote_count += 1                        # Increment total vote counter
+    vote_getter = row[2]                   # Who got this vote
+    if vote_getter in votes:               # If we have already seen a vote for this person
+        votes[vote_getter] += 1            #   Increment their vote total
+    else:                                  # Otherwise
+        votes[vote_getter] = 1             #   Add this candidate to the list with 1 vote
 
 max_votes = 0
 
+# Output results
 with open(output_path,'w') as txt_file:
 
     txt_file.write("Election Results\n")
@@ -77,6 +85,7 @@ with open(output_path,'w') as txt_file:
     txt_file.write("----------------------------\n")
     print("----------------------------")
 
+    # Step through votes dict to output | calculate vote percent
     for vote_getter in votes:
         votePct = (votes[vote_getter] / vote_count) * 100
         txt_file.write(f"{vote_getter}: {votePct:.3f}% ({votes[vote_getter]:,})\n")
